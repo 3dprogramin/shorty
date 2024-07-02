@@ -95,6 +95,8 @@ async function submit(ctx) {
     throw Error("accepted characters for id are: [0-9a-zA-Z_-]");
   }
   if (id) {
+    // make sure the length does not exceed 500 characters
+    if (id.length > 500) throw Error("maximum id length is 500 characters");
     // check if it exists in storage
     const data = await getStorage(id);
     if (data) {
