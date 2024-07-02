@@ -201,14 +201,20 @@ async function setStorage(id, url) {
  * Main function - start the server and connect to redis if needed
  */
 async function main() {
+  await app.listen(PORT);
+  console.log(`[+] Shorty HTTP server running on http://127.0.0.1:${PORT}`);
+
   if (STORAGE === "redis") {
-    await redisClient.connect();
+    try {
+      await redisClient.connect();
+    } catch (err) {
+      console.log("[-] Redis DB connection failed, exiting...");
+      process.exit(1);
+    }
     console.log("[+] Redis DB connected");
   } else {
     console.log("[+] In-memory storage");
   }
-  await app.listen(PORT);
-  console.log(`[+] HTTP server running on http://127.0.0.1:${PORT}`);
 }
 
 main();

@@ -1,4 +1,4 @@
-# URL Shortener Service
+# Shorty
 
 This project is a free and open-source URL shortening service built with Node.js using the Koa framework. It serves as an alternative to services like bit.ly and tinyurl.com. The service allows you to shorten URLs, store them in memory or Redis, retrieve them using short identifiers, and view analytics for each URL. It also includes a Bash CLI for easy interaction with the service.
 
@@ -14,15 +14,16 @@ This project is a free and open-source URL shortening service built with Node.js
 ## Prerequisites
 
 - Node.js (>= 12.x)
-- Redis (optional, if using Redis storage)
 - Bash (for CLI usage)
+- Redis (optional, if using Redis storage)
+- qrcode-terimnal (optional, for QR code generation)
 
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/url-shortener.git
-cd url-shortener
+git clone https://github.com/3dprogramin/shorty
+cd shorty
 ```
 
 2. Install dependencies:
@@ -61,14 +62,16 @@ npm run start
 ##### Basic usage
 
 ```bash
-TOKEN=your_secret_token ./bin/url.sh http://example.com
+cd bin
+export SHORTY_TOKEN=your_secret_token 
+./shorty http://example.com
 http://127.0.0.1:3000/1hJ
 ```
 
 ##### Custom ID (optional)
 
 ```bash
-TOKEN=your_secret_token ./url.sh http://example.com my-custom-id
+./shorty http://example.com my-custom-id
 http://127.0.0.1:3000/my-custom-id
 ```
 

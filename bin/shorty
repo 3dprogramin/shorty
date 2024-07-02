@@ -1,8 +1,8 @@
 #!/bin/bash
 
-SERVER="${SERVER:-http://127.0.0.1:3000}"
-TOKEN="${TOKEN}"
-QR="${QR}"
+SHORTY_SERVER="${SHORTY_SERVER:-http://127.0.0.1:3000}"
+SHORTY_TOKEN="${SHORTY_TOKEN}"
+SHORTY_QR="${SHORTY_QR}"
 
 # Function to display usage
 usage() {
@@ -10,9 +10,9 @@ usage() {
     exit 1
 }
 
-# Check if TOKEN is set
-if [ -z "$TOKEN" ]; then
-    echo "Error: TOKEN environment variable is not set"
+# Check if SHORTY_TOKEN is set
+if [ -z "$SHORTY_TOKEN" ]; then
+    echo "Error: SHORTY_TOKEN environment variable is not set"
     exit 1
 fi
 
@@ -35,7 +35,7 @@ DATA="$DATA}"
 HEADERS="Content-Type: application/json"
 
 # Make request to API for submitting the URL
-HTTP_RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -X POST "$SERVER" -H "$HEADERS" -H "token: $TOKEN" -d "$DATA")
+HTTP_RESPONSE=$(curl -s -w "HTTPSTATUS:%{http_code}" -X POST "$SHORTY_SERVER" -H "$HEADERS" -H "token: $SHORTY_TOKEN" -d "$DATA")
 HTTP_BODY=$(echo "$HTTP_RESPONSE" | sed -e 's/HTTPSTATUS\:.*//g')
 HTTP_STATUS=$(echo "$HTTP_RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
 
@@ -54,12 +54,12 @@ fi
 
 # Extract and display the ID from the response
 ID=$(echo "$HTTP_BODY" | grep -oP '(?<="id":")[^"]*')
-URL="${SERVER}/${ID}"
+URL="${SHORTY_SERVER}/${ID}"
 
 # If we have an ID, display the URL and QR code
 if [ -n "$ID" ]; then
     echo $URL
-    if [ -n "$QR" ]; then
+    if [ -n "$SHORTY_QR" ]; then
         if command -v qrcode-terminal &> /dev/null; then
             qrcode-terminal "$URL"
         else
